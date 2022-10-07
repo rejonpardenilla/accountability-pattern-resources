@@ -57,6 +57,21 @@ Table allowed_relationships {
   relationship_type_id int
 }
 
+Table accountabilities {
+  id int [pk]
+  accountability_type_id int
+  child_id int
+  parent_id int
+  effective_from datetime
+  effective_to datetime
+}
+
+Table accountability_types {
+  id int [pk]
+  name string
+  description text
+}
+
 Ref: parties.party_type_id > party_types.id
 Ref: parties.details_id > party_person_details.id
 Ref: parties.details_id > party_company_details.id
@@ -66,3 +81,6 @@ Ref: relationships.from_id > parties.id
 Ref: relationships.to_id > parties.id
 Ref: allowed_relationships.party_type_id > party_types.id
 Ref: allowed_relationships.relationship_type_id > relationship_types.id
+Ref: accountabilities.accountability_type_id > accountability_types.id
+Ref: accountabilities.child_id > parties.id
+Ref: accountabilities.parent_id > parties.id
