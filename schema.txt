@@ -1,0 +1,68 @@
+// Insert this diagram code here: https://dbdiagram.io/
+
+Table parties {
+  id int [pk]
+  party_type_id int
+  details_type string
+  details_id int
+}
+
+Table party_types {
+  id int [pk]
+  name string
+  description text
+}
+
+Table party_person_details {
+  id int [pk]
+  first_name string
+  last_name string
+  birthdate date
+  identification_document_number string
+  identification_document_type enum
+}
+
+Table party_company_details {
+  id int [pk]
+  common_name string
+  official_name string
+  taxes_registry_number string
+  country_code string
+}
+
+Table party_generic_details {
+  id int [pk]
+  name string
+  data json
+}
+
+Table relationships {
+  id int [pk]
+  relationship_type_id int
+  from_id int
+  to_id int
+  effective_from datetime
+  effective_to datetime
+}
+
+Table relationship_types {
+  id int [pk]
+  name string
+  description text
+}
+
+Table allowed_relationships {
+  id int [pk]
+  party_type_id int
+  relationship_type_id int
+}
+
+Ref: parties.party_type_id > party_types.id
+Ref: parties.details_id > party_person_details.id
+Ref: parties.details_id > party_company_details.id
+Ref: parties.details_id > party_generic_details.id
+Ref: relationships.relationship_type_id > relationship_types.id
+Ref: relationships.from_id > parties.id
+Ref: relationships.to_id > parties.id
+Ref: allowed_relationships.party_type_id > party_types.id
+Ref: allowed_relationships.relationship_type_id > relationship_types.id
